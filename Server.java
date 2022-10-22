@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.Scanner;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Server{
 
@@ -30,9 +31,12 @@ public class Server{
             Socket cliente = server.accept();
             System.out.println("\nCliente conectado do IP "+cliente.getInetAddress().getHostAddress());
 
+            PrintWriter out = new PrintWriter(cliente.getOutputStream(),true);
+
             Scanner entrada = new Scanner(cliente.getInputStream());
             while(entrada.hasNextLine()){
                 Server.service(entrada.nextLine());
+                out.println("recebi");
             }
 
             entrada.close();

@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
@@ -8,6 +10,7 @@ public class Client {
 
     public static void main(String[] args) {
 
+        BufferedReader in;
         String entrada;
         boolean repeat = true;
         char option;
@@ -20,6 +23,7 @@ public class Client {
             // pega string do teclado, salva na var 'entrada'
             Scanner teclado = new Scanner(System.in);
             Scanner keyboard = new Scanner(System.in);
+            in = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
 
             //loop para ficar entrando com dados
             while(repeat){
@@ -36,6 +40,7 @@ public class Client {
                     entrada = keyboard.nextLine();
                     // passa a string contida em 'entrada' para a stream 'saida' e também pro output de cliente
                     saida.println(entrada);
+                    System.out.println(in.readLine());
                     break;
 
                     case 'N':
