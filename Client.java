@@ -1,6 +1,11 @@
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @SuppressWarnings("unused")
 public class Client {
@@ -8,23 +13,36 @@ public class Client {
     private static final String hostIP = "127.0.0.1";
     private static final int port = 3322;
 
-    Socket cliSocket;
-    PrintStream out;
-    BufferedReader in;
+    private Socket cliSocket;
+    private PrintWriter out;
+    private BufferedReader in;
+    private String srvResp;
     
-    public void start(){
-         //todo
+    public void start() throws IOException{
 
+        cliSocket = new Socket(hostIP,port);
+        out = new PrintWriter(cliSocket.getOutputStream(),true);
+        in = new BufferedReader(new InputStreamReader(cliSocket.getInputStream()));
+    }
+
+    public String talk(String msg) throws IOException{
+        out.println(msg);
+        String resp = in.readLine();
+        return resp;
+    }
+
+    public void stop() throws IOException{
+        in.close();
+        out.close();
+        cliSocket.close();
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
 
-        System.out.println("hello world");
-        /*try {
-            //todo
-
-        } catch (Exception e) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, e);
-        }*/
+        Client c = new Client();
+        c.start();
+        c.srvResp = c.talk("ola");
+        System.out.println(c.srvResp);
+        c.stop();
     }
 }
