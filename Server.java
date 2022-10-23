@@ -22,17 +22,21 @@ public class Server{
             cliSocket = srvSocket.accept();
             out = new PrintWriter(cliSocket.getOutputStream(),true);
             in = new BufferedReader(new InputStreamReader(cliSocket.getInputStream()));
-            service(in.readLine());
+            service();
             i++;
         }
     }
     
-    public void service(String s){
+    public void service(){
         new Thread(){
             public void run(){
-                System.out.println("Servico prestado pela thread "+this.getId());
-                System.out.println("Cliente envia: "+s);
-                out.println("Recebi o seu "+s);
+                try{    
+                    String cid = in.readLine();
+                    System.out.println("Prestando servico pro cliente "+cid);
+                    String msg = in.readLine();
+                    System.out.println("Cliente "+cid+" envia: "+msg);
+                    out.println("Recebi o seu "+msg+"; vc esta sendo servido pela thread "+getId());
+                }catch(IOException e){}
             }
         }.start();
     }
@@ -44,7 +48,6 @@ public class Server{
         srvSocket.close();
     }
 
-    @SuppressWarnings("unused")
     public static void main(String[] args) throws IOException{
 
         Server s = new Server();

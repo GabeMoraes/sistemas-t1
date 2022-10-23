@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,7 +13,9 @@ public class Client {
 
     private static final String hostIP = "127.0.0.1";
     private static final int port = 3322;
+    private static int cliCount = 0;
 
+    private String cid;
     private Socket cliSocket;
     private PrintWriter out;
     private BufferedReader in;
@@ -21,8 +24,12 @@ public class Client {
     public void start() throws IOException{
 
         cliSocket = new Socket(hostIP,port);
+        cliCount++;
         out = new PrintWriter(cliSocket.getOutputStream(),true);
         in = new BufferedReader(new InputStreamReader(cliSocket.getInputStream()));
+
+        cid = Integer.toString(cliCount);
+        out.println(cid);
     }
 
     public String talk(String msg) throws IOException{
@@ -40,9 +47,12 @@ public class Client {
     public static void main(String[] args) throws IOException{
 
         Client c = new Client();
+        Scanner kbEntry = new Scanner(System.in);
         c.start();
-        c.srvResp = c.talk("ola");
+        System.out.println("Digite uma msg: ");
+        c.srvResp = c.talk(kbEntry.nextLine());
         System.out.println(c.srvResp);
         c.stop();
+        kbEntry.close();
     }
 }
