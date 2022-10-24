@@ -47,12 +47,12 @@ public class Client {
     public static void main(String[] args) throws IOException{
 
         Client c = new Client();
-        Scanner kbEntry = new Scanner(System.in);
+        //Scanner kbEntry = new Scanner(System.in);
         c.start();
-        System.out.println("Digite uma msg: ");
-        c.srvResp = c.talk(kbEntry.nextLine());
+        //System.out.println("Digite uma msg: ");
+        c.srvResp = c.talk("Pode me emprestar um servico?");
         System.out.println(c.srvResp);
         c.stop();
-        kbEntry.close();
+        //kbEntry.close();
     }
 }
