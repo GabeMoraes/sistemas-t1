@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,7 @@ public class Client {
     public void start() throws IOException{
 
         cliSocket = new Socket(hostIP,port);
+        System.out.println("socket criado");
         cliCount++;
         out = new PrintWriter(cliSocket.getOutputStream(),true);
         in = new BufferedReader(new InputStreamReader(cliSocket.getInputStream()));
@@ -34,7 +36,12 @@ public class Client {
 
     public String talk(String msg) throws IOException{
         out.println(msg);
-        String resp = in.readLine();
+        String resp = null;
+        try{
+            resp = in.readLine();
+        } catch(SocketException e){
+            e.printStackTrace();
+        }
         return resp;
     }
 

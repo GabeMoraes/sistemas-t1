@@ -21,12 +21,15 @@ public class Server{
         int i = 0;
         srvSocket = new ServerSocket(port);
         System.out.println("Serv iniciado na porta: "+port);
-        while(i < 4){
+        while(i < 2){
             cliSocket = srvSocket.accept();
+            System.out.println("conexao aceita");
+            System.out.println(i);
             out = new PrintWriter(cliSocket.getOutputStream(),true);
             in = new BufferedReader(new InputStreamReader(cliSocket.getInputStream()));
             service();
             i++;
+            System.out.println(i);
         }
     }
     
@@ -69,6 +72,6 @@ public class Server{
 
         Server s = new Server();
         s.start();
-        s.stop();
+        
     }
 }
