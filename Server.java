@@ -21,7 +21,7 @@ public class Server{
         int i = 0;
         srvSocket = new ServerSocket(port);
         System.out.println("Serv iniciado na porta: "+port);
-        while(i < 2){
+        while(i < 4){
             cliSocket = srvSocket.accept();
             System.out.println("conexao aceita");
             System.out.println(i);
